@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+  Strategies to build branches only if a particular file has not been changed.
+</div>

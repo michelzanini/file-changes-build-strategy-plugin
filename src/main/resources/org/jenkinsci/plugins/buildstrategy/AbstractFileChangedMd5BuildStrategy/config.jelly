@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form">
+  <f:entry title="${%File path}" field="filePath">
+    <f:textbox default=""/>
+  </f:entry>
+  <f:entry title="${%MD5 hash}" field="md5Hash">
+    <f:textbox default=""/>
+  </f:entry>
+</j:jelly>
