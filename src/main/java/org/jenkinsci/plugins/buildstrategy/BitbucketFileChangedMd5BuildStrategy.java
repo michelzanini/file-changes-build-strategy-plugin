@@ -8,6 +8,7 @@ import com.cloudbees.jenkins.plugins.bitbucket.api.BitbucketRepositoryType;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import jenkins.branch.BranchBuildStrategyDescriptor;
+import jenkins.model.Jenkins;
 import jenkins.scm.api.SCMHead;
 import jenkins.scm.api.SCMRevision;
 import jenkins.scm.api.SCMSourceDescriptor;
@@ -41,7 +42,7 @@ public class BitbucketFileChangedMd5BuildStrategy extends AbstractFileChangedMd5
   }
 
   @Symbol("bitbucketFileChangedMd5BuildStrategy")
-  @Extension
+  @Extension(optional = true)
   public static class DescriptorImpl extends BranchBuildStrategyDescriptor {
 
     /**
@@ -55,6 +56,9 @@ public class BitbucketFileChangedMd5BuildStrategy extends AbstractFileChangedMd5
 
     @Override
     public boolean isApplicable(@Nonnull SCMSourceDescriptor sourceDescriptor) {
+      if (Jenkins.get().getPlugin("cloudbees-bitbucket-branch-source") == null) {
+        return false;
+      }
       return BitbucketSCMSource.DescriptorImpl.class.isAssignableFrom(sourceDescriptor.getClass());
     }
 

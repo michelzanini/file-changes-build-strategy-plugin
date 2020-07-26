@@ -3,6 +3,7 @@ package org.jenkinsci.plugins.buildstrategy;
 import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import jenkins.branch.BranchBuildStrategyDescriptor;
+import jenkins.model.Jenkins;
 import jenkins.plugins.git.AbstractGitSCMSource;
 import jenkins.plugins.git.GitBranchSCMHead;
 import jenkins.scm.api.SCMHead;
@@ -42,7 +43,7 @@ public class GithubFileChangedMd5BuildStrategy extends AbstractFileChangedMd5Bui
   }
 
   @Symbol("githubFileChangedMd5BuildStrategy")
-  @Extension
+  @Extension(optional = true)
   public static class DescriptorImpl extends BranchBuildStrategyDescriptor {
 
     /**
@@ -56,6 +57,9 @@ public class GithubFileChangedMd5BuildStrategy extends AbstractFileChangedMd5Bui
 
     @Override
     public boolean isApplicable(@Nonnull SCMSourceDescriptor sourceDescriptor) {
+      if (Jenkins.get().getPlugin("github-branch-source") == null) {
+        return false;
+      }
       return GitHubSCMSource.DescriptorImpl.class.isAssignableFrom(sourceDescriptor.getClass());
     }
 
